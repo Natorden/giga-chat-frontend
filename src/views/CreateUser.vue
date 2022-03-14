@@ -16,7 +16,9 @@ const inputEmail = ref("");
 const inputPassword = ref("");
 
 function handleCreateUser() {
-  userStore.createUser(inputName.value, inputEmail.value, inputPassword.value);
+  if (inputName.value.length > 0 && inputEmail.value.length > 0 && inputPassword.value.length > 0) {
+    userStore.createUser(inputName.value, inputEmail.value, inputPassword.value);
+  }
 }
 </script>
 

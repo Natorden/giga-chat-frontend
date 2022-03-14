@@ -20,7 +20,6 @@ export const UserStore = defineStore({
     createUser(username: string, email: string, password: string) {
       userService
         .createUser(username, email, password)
-        .then((user) => (this.loggedInUser = user))
         .catch((err) => console.log(err.message));
     },
     logInUser(username: string, password: string): boolean {

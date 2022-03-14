@@ -2,6 +2,7 @@
 import { UserStore } from "@/stores/user.store";
 import { storeToRefs } from "pinia";
 
+const userStore = UserStore()
 const { userName } = storeToRefs(UserStore());
 
 function isLoggedIn(): boolean {
@@ -10,14 +11,16 @@ function isLoggedIn(): boolean {
 
 function logout() {
   localStorage.removeItem("user");
+  userStore.logout()
 }
+
 </script>
 <template>
   <nav>
     <RouterLink to="/">Home</RouterLink> |
     <RouterLink to="/createUser">Create User</RouterLink> |
-    <RouterLink to="" @click="logout.call()" v-if="isLoggedIn.call()">Log Out</RouterLink>
-    <RouterLink v-else to="/loginView">Log In</RouterLink> |
+    <RouterLink to="" v-show="isLoggedIn.call()" @click="logout" >Log Out</RouterLink>
+    <RouterLink to="/loginView" v-show="!isLoggedIn.call()">Log In</RouterLink> |
     <!--    <RouterLink to="/roomCreate">Create Room</RouterLink> |-->
     <!--    <RouterLink to="/chatView">View Chats</RouterLink> |-->
     <span>{{userName}}</span>
