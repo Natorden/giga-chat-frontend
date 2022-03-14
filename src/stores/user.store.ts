@@ -7,20 +7,25 @@ const userService: UserService = new UserService();
 export const UserStore = defineStore({
   id: "userStore",
   state: () => ({
-    loggedInUser: { name: "" } as User,
+    loggedInUser: { username: "" } as User,
   }),
   getters: {
     userName: (state) => {
-      if (state.loggedInUser.name != undefined) return state.loggedInUser.name;
+      if (state.loggedInUser.username != undefined) return state.loggedInUser.username;
       else return "";
     },
   },
   actions: {
-    createUser(name: string, email: string, password: string) {
+    createUser(username: string, email: string, password: string) {
       userService
-        .createUser(name, email, password)
+        .createUser(username, email, password)
         .then((user) => (this.loggedInUser = user))
         .catch((err) => console.log(err.message));
     },
+    logInUser(username: string, password: string){
+      userService
+        .logIn(username,password)
+        .then((user) => (this.loggedInUser = user))
+    }
   },
 });

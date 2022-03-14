@@ -16,14 +16,16 @@
 
 <script setup lang="ts">
 
+import {UserStore} from "@/stores/user.store";
 import router from "@/router";
 import { ref } from "vue";
 
+const userStore = UserStore();
 const usernameInput = ref("");
 const passwordInput = ref("");
 
 function logIn(){
-
+  userStore.logInUser(usernameInput.value,passwordInput.value)
   router.push({path: "/roomCreate"});
 }
 
