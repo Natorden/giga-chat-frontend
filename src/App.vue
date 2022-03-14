@@ -9,7 +9,8 @@ const userStore = UserStore();
 
     <RouterLink to="/">Home</RouterLink> |
     <RouterLink to="/createUser">Create User</RouterLink> |
-    <RouterLink to="/roomCreate">Create Room</RouterLink> |
+    <RouterLink to="/loginView">Log In</RouterLink> |
+    <!--    <RouterLink to="/roomCreate">Create Room</RouterLink> |-->
     <!--    <RouterLink to="/chatView">View Chats</RouterLink> |-->
     <span>{{ userStore.userName }}</span>
   </nav>
