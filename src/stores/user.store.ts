@@ -11,7 +11,8 @@ export const UserStore = defineStore({
   }),
   getters: {
     userName: (state) => {
-      if (state.loggedInUser.username != undefined) return state.loggedInUser.username;
+      if (state.loggedInUser.username != undefined)
+        return state.loggedInUser.username;
       else return "";
     },
   },
@@ -22,10 +23,23 @@ export const UserStore = defineStore({
         .then((user) => (this.loggedInUser = user))
         .catch((err) => console.log(err.message));
     },
-    logInUser(username: string, password: string){
+    logInUser(username: string, password: string): boolean {
       userService
-        .logIn(username,password)
-        .then((user) => (this.loggedInUser = user))
-    }
+        .logIn(username, password)
+        .then((user) => {
+          if (user != null) {
+            this.loggedInUser = user;
+            const parsed = JSON.stringify(this.loggedInUser);
+            localStorage.setItem("user", parsed);
+            return true;
+          }
+        })
+        .catch((err) => console.log(err));
+      return false;
+    },
+    logout() {
+      this.loggedInUser = { username: "" } as User;
+      localStorage.removeItem("user");
+    },
   },
 });

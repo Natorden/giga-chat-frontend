@@ -14,13 +14,11 @@ export class UserService {
     });
     return result.data;
   }
-  async logIn(username: string, password: string): Promise<User>{
+  async logIn(username: string, password: string): Promise<User> {
     const result = await http.post("/log-in", {
       username: username,
       password: password,
     });
     return result.data;
   }
-
-
 }
