@@ -25,8 +25,13 @@ const usernameInput = ref("");
 const passwordInput = ref("");
 
 function logIn(){
-  userStore.logInUser(usernameInput.value,passwordInput.value)
-  router.push({path: "/roomCreate"});
+
+  if(usernameInput.value != null && passwordInput.value != null) {
+    userStore.logInUser(usernameInput.value,passwordInput.value)
+    router.push({path: "/roomCreate"});
+  }
+  return;
+
 }
 
 
