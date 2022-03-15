@@ -4,16 +4,23 @@ import { UserService } from "@/services/user.service";
 
 const userService: UserService = new UserService();
 
+// @ts-ignore
 export const UserStore = defineStore({
   id: "userStore",
   state: () => ({
     loggedInUser: { username: "" } as User,
+    users: [] as User[],
   }),
   getters: {
     userName: (state) => {
       if (state.loggedInUser.username != undefined)
         return state.loggedInUser.username;
       else return "";
+    },
+    users: (state) => {
+      if (state.users != undefined)
+        return state.users;
+      else return [] as User[];
     },
   },
   actions: {
@@ -40,5 +47,20 @@ export const UserStore = defineStore({
       this.loggedInUser = { username: "" } as User;
       localStorage.removeItem("user");
     },
+    getAllUsers() {
+      userService
+          .getAllUsers()
+          .then((users) => {
+            // @ts-ignore
+            this.users.forEach((user, index) => {
+              delete this.users[index]
+            })
+
+            users.forEach((user) => {
+              this.users.push(user)
+            })
+          })
+          .catch((err) => console.log(err));
+    }
   },
 });

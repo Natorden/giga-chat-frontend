@@ -19,11 +19,12 @@ function logout() {
   <nav>
     <RouterLink to="/">Home</RouterLink> |
     <RouterLink to="/createUser">Create User</RouterLink> |
-    <RouterLink to="" v-show="isLoggedIn.call()" @click="logout" >Log Out</RouterLink>
     <RouterLink to="/loginView" v-show="!isLoggedIn.call()">Log In</RouterLink> |
+    <RouterLink to="/users" v-show="isLoggedIn.call()">Users</RouterLink> |
+    <RouterLink to="" v-show="isLoggedIn.call()" @click="logout" >Log Out</RouterLink>
     <!--    <RouterLink to="/roomCreate">Create Room</RouterLink> |-->
     <!--    <RouterLink to="/chatView">View Chats</RouterLink> |-->
-    <span>{{userName}}</span>
+    <span v-show="isLoggedIn.call()"> | {{userName}}</span>
   </nav>
   <br />
   <RouterView />
