@@ -16,16 +16,57 @@ function logout() {
 
 </script>
 <template>
-  <nav>
-    <RouterLink to="/">Home</RouterLink> |
-    <RouterLink to="/createUser">Create User</RouterLink> |
-    <RouterLink to="/loginView" v-show="!isLoggedIn.call()">Log In</RouterLink> |
-    <RouterLink to="/users" v-show="isLoggedIn.call()">Users</RouterLink> |
-    <RouterLink to="" v-show="isLoggedIn.call()" @click="logout" >Log Out</RouterLink>
-    <!--    <RouterLink to="/roomCreate">Create Room</RouterLink> |-->
-    <!--    <RouterLink to="/chatView">View Chats</RouterLink> |-->
-    <span v-show="isLoggedIn.call()"> | {{userName}}</span>
+  <nav class="navbar navbar-dark bg-dark navbar-expand-md">
+    <img src="../src/assets/Gigachad.png" width="50" height="50" alt="logo" style="margin-left: 1em">
+    <span class="navbar-brand" href="#" style="margin-left: 1em; font-size: 1.5em; color: #EBB965">GIGACHAT</span>
+    <!--    Reactive drop down menu, not working atm-->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list-6" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" style="margin-left: 1em">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <RouterLink to="/" id="navbarItem">Home</RouterLink>
+        </li>
+        <li class="nav-item active" v-show="isLoggedIn.call()">
+          <RouterLink to="/users" id="navbarItem">Users</RouterLink>
+        </li>
+      </ul>
+    </div>
+    <div class="collapse navbar-collapse justify-content-end" >
+      <ul class="navbar-nav">
+        <li class="nav-item active" v-show="!isLoggedIn.call()">
+          <RouterLink to="/createUser" id="navbarItem">Register</RouterLink>
+        </li>
+        <span v-show="isLoggedIn.call()" id="username">{{userName}}</span>
+        <li class="nav-item active" v-show="isLoggedIn.call()">
+          <RouterLink to="" @click="logout" id="navbarItem">Log Out</RouterLink>
+        </li>
+        <li class="nav-item active" v-show="!isLoggedIn.call()">
+          <RouterLink to="/loginView" v-show="!isLoggedIn.call()" id="navbarItem">Log In</RouterLink>
+        </li>
+      </ul>
+    </div>
   </nav>
   <br />
   <RouterView />
 </template>
+
+<style>
+
+#navbarItem {
+  margin-right: 1em;
+  text-decoration: none;
+  color: ghostwhite;
+  font-size: 1.2em
+}
+
+#username {
+  margin-right: 1.5em;
+  text-decoration: none;
+  color: navajowhite;
+  font-size: 1.2em
+}
+
+
+</style>

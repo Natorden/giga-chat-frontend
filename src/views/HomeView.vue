@@ -1,5 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <h1>Hello you're home</h1>
+  <div class="mx-auto" style="width: 115px;">
+    <img src="../assets/Gigachad.png" alt="logo">
+  </div>
 </template>
