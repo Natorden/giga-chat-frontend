@@ -1,5 +1,7 @@
 import { io } from "socket.io-client";
 import type { Chat } from "@/models/Chat";
+import type { Room } from "@/models/Room";
+import http from "./http.client";
 
 export class ChatService {
   socket = io("localhost:3001");
@@ -23,5 +25,10 @@ export class ChatService {
 
   disconnectFromRoom(room: string) {
     this.socket.off(room);
+  }
+
+  async getAllRooms(): Promise<Room[]> {
+    const res = await http.get<Room[]>("/rooms");
+    return res.data;
   }
 }

@@ -5,6 +5,7 @@ import ChatView from "../views/ChatView.vue";
 import RoomCreate from "../views/RoomCreate.vue";
 import LoginView from "../views/LoginView.vue";
 import UserList from "../views/UserList.vue";
+import ChatRoomView from "../views/ChatRoom.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,6 +44,11 @@ const router = createRouter({
       path: "/users",
       name: "Users",
       component: UserList,
+    },
+    {
+      path: "/chat",
+      name: "Chat",
+      component: ChatRoomView,
     },
   ],
 });
