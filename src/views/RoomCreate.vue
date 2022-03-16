@@ -4,13 +4,12 @@
     <div>
       <input v-model="txtRoomListener" placeholder="Enter room name" /> <br />
     </div>
-<!--    <router-link to="/chatView" tag="button" @click="listenToRoom">Connect</router-link>-->
+    <!--    <router-link to="/chatView" tag="button" @click="listenToRoom">Connect</router-link>-->
     <div>
       <button @click="listenToRoom">Create Room</button> |
       <button @click="logOut">Sign Out</button>
     </div>
   </div>
-
 </template>
 
 <script setup lang="ts">
@@ -26,9 +25,8 @@ function listenToRoom() {
   chatStore.setRoom(txtRoomListener.value);
   router.push({ path: "/chatView" });
 }
-function logOut(){
-
-  router.push({path: "/loginView"});
+function logOut() {
+  router.push({ path: "/loginView" });
 }
 </script>
 

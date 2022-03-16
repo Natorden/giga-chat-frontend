@@ -7,12 +7,12 @@ const chatService = new ChatService();
 export const ChatStore = defineStore({
   id: "ChatStore",
   state: () => ({
-    chats: [{ text: "Welcome to the room"}] as Chat[],
+    chats: [{ text: "Welcome to the room" }] as Chat[],
     room: "",
   }),
   actions: {
     createChat(text: string) {
-      const chat: Chat = {text: text, room: this.room};
+      const chat: Chat = { text: text, room: this.room };
       chatService.createChat(chat);
       this.chats.push(chat);
     },

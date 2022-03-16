@@ -24,7 +24,7 @@ export class UserService {
   }
 
   async getAllUsers(): Promise<User[]> {
-    const result = await http.get<User[]>('/users');
-    return result.data
+    const result = await http.get<User[]>("/users");
+    return result.data;
   }
 }

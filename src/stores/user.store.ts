@@ -4,7 +4,6 @@ import { UserService } from "@/services/user.service";
 
 const userService: UserService = new UserService();
 
-// @ts-ignore
 export const UserStore = defineStore({
   id: "userStore",
   state: () => ({
@@ -18,8 +17,7 @@ export const UserStore = defineStore({
       else return "";
     },
     users: (state) => {
-      if (state.users != undefined)
-        return state.users;
+      if (state.users != undefined) return state.users;
       else return [] as User[];
     },
   },
@@ -49,18 +47,17 @@ export const UserStore = defineStore({
     },
     getAllUsers() {
       userService
-          .getAllUsers()
-          .then((users) => {
-            // @ts-ignore
-            this.users.forEach((user, index) => {
-              delete this.users[index]
-            })
+        .getAllUsers()
+        .then((users) => {
+          this.users.forEach((user, index) => {
+            delete this.users[index];
+          });
 
-            users.forEach((user) => {
-              this.users.push(user)
-            })
-          })
-          .catch((err) => console.log(err));
-    }
+          users.forEach((user) => {
+            this.users.push(user);
+          });
+        })
+        .catch((err) => console.log(err));
+    },
   },
 });
