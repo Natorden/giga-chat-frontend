@@ -9,6 +9,7 @@ export const UserStore = defineStore({
   state: () => ({
     loggedInUser: { username: "" } as User,
     users: [] as User[],
+    requests: [] as User[],
   }),
   getters: {
     userName: (state) => {
@@ -18,6 +19,10 @@ export const UserStore = defineStore({
     },
     users: (state) => {
       if (state.users != undefined) return state.users;
+      else return [] as User[];
+    },
+    requests: (state) => {
+      if (state.requests != undefined) return state.requests;
       else return [] as User[];
     },
   },
@@ -58,6 +63,11 @@ export const UserStore = defineStore({
           });
         })
         .catch((err) => console.log(err));
+    },
+    addRequest(request: string) {
+      userService.getUserById(request).then(user =>{
+        this.requests.push(user);
+      })
     },
   },
 });

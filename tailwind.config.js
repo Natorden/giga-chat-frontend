@@ -1,8 +1,14 @@
 // eslint-disable-next-line no-undef
 module.exports = {
-  content: ["./src/**/*.{html,js,vue}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{vue,js,ts,jsx,tsx}",
+    "./node_modules/flowbite/**/*.js"
+  ],
   theme: {
     extend: {},
   },
-  plugins: [],
-};
+  plugins: [
+    require('flowbite/plugin')
+  ],
+}

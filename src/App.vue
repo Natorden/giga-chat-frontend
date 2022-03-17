@@ -1,19 +1,3 @@
-<script setup lang="ts">
-import { UserStore } from "@/stores/user.store";
-import { storeToRefs } from "pinia";
-
-const userStore = UserStore();
-const { userName } = storeToRefs(UserStore());
-
-function isLoggedIn(): boolean {
-  return !!localStorage.getItem("user");
-}
-
-function logout() {
-  localStorage.removeItem("user");
-  userStore.logout();
-}
-</script>
 <template>
   <nav class="navbar navbar-dark bg-dark navbar-expand-md">
     <img
@@ -53,10 +37,13 @@ function logout() {
     </div>
     <div class="collapse navbar-collapse justify-content-end">
       <ul class="navbar-nav">
+        <li class="nav-item active" v-show="isLoggedIn.call()">
+          <RouterLink to="/requests" id="navbarItem">Requests <b-badge variant="success" style="font-size: 0.7em">{{requestAmount}}</b-badge></RouterLink>
+        </li>
         <li class="nav-item active" v-show="!isLoggedIn.call()">
           <RouterLink to="/createUser" id="navbarItem">Register</RouterLink>
         </li>
-        <span v-show="isLoggedIn.call()" id="username">{{ userName }}</span>
+        <span v-show="isLoggedIn.call()" id="username">{{ userStore.userName }}</span>
         <li class="nav-item active" v-show="isLoggedIn.call()">
           <RouterLink to="" @click="logout" id="navbarItem">Log Out</RouterLink>
         </li>
@@ -74,6 +61,52 @@ function logout() {
   <br />
   <RouterView />
 </template>
+
+<script setup lang="ts">
+import { UserStore } from "@/stores/user.store";
+import {io} from "socket.io-client";
+import {ref} from "vue";
+import type {User} from "@/models/User";
+import {RequestService} from "@/services/request.service";
+
+let socket = io("localhost:3001");
+socket.connect();
+
+const requestService: RequestService = new RequestService();
+
+const userStore = UserStore();
+let requestAmount = ref(0);
+
+function isLoggedIn(): boolean {
+  return !!localStorage.getItem("user");
+}
+
+function logout() {
+  localStorage.removeItem("user");
+  userStore.logout();
+}
+
+let sender;
+
+// When logged in
+if (localStorage.getItem('user') != null) {
+  sender = JSON.parse(<string>localStorage.getItem("user")) as User;
+
+  requestService.getRequestsByUserId(sender.uuid).then((requests) => {
+    requestAmount.value = requests.length;
+    requests.forEach((request) => {
+      userStore.requests.push(request);
+      console.log(request);
+    });
+  });
+
+  socket.on(sender.uuid, from => {
+    userStore.addRequest(from);
+    requestAmount.value++;
+  });
+}
+
+</script>
 
 <style>
 #navbarItem {
