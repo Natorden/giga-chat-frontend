@@ -12,6 +12,7 @@ export const UserStore = defineStore({
     loggedInUser: { username: "" } as User,
     users: [] as User[],
     requests: [] as User[],
+    friends: [] as User[],
   }),
   getters: {
     userName: (state) => {
@@ -34,6 +35,10 @@ export const UserStore = defineStore({
     },
     requestsAmount() {
       return this.requests.length;
+    },
+    friends: (state) => {
+      if (state.friends != undefined) return state.friends;
+      else return [] as User[];
     }
   },
   actions: {

@@ -38,6 +38,9 @@
     <div class="collapse navbar-collapse justify-content-end">
       <ul class="navbar-nav">
         <li class="nav-item active" v-show="isLoggedIn.call()">
+          <RouterLink to="/friends" id="navbarItem">Friends</RouterLink>
+        </li>
+        <li class="nav-item active" v-show="isLoggedIn.call()">
           <RouterLink to="/requests" id="navbarItem">Requests <b-badge variant="success" style="font-size: 0.7em">{{requestAmount}}</b-badge></RouterLink>
         </li>
         <li class="nav-item active" v-show="!isLoggedIn.call()">
