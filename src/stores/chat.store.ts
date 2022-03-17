@@ -8,32 +8,35 @@ const chatService = new ChatService();
 export const ChatStore = defineStore({
   id: "ChatStore",
   state: () => ({
-    chats: [{ text: "Welcome to the room" }] as Chat[],
     room: "",
     rooms: [] as Room[],
     selectedRoom: undefined as Room | undefined,
   }),
   actions: {
     createChat(text: string) {
-      const chat: Chat = { text: text, room: this.room };
-      chatService.createChat(chat);
-      this.chats.push(chat);
+      if (this.selectedRoom != undefined) {
+        const chat: Chat = { text: text, room: this.selectedRoom.uuid };
+        chatService.createChat(chat);
+      }
     },
     receiveChat(chat: Chat) {
-      this.chats.push(chat);
-    },
-    setRoom(room: string) {
-      if (this.room) chatService.disconnectFromRoom(this.room);
-      this.room = room;
-      chatService.listenToRoom(room, (chat) => {
-        this.chats.push(chat);
-      });
+      if (this.selectedRoom != undefined) {
+        this.selectedRoom.chats.push(chat);
+      }
     },
     loadRooms() {
       chatService.getAllRooms().then((rooms) => (this.rooms = rooms));
     },
     selectRoom(roomUUID: string) {
-      chatService.loadRoom(roomUUID).then((room) => (this.selectedRoom = room));
+      if (this.selectedRoom != undefined)
+        chatService.disconnectFromRoom(this.selectedRoom.uuid);
+
+      chatService.loadRoom(roomUUID).then((room) => {
+        this.selectedRoom = room;
+        chatService.listenToRoom(room.uuid, (chat) => {
+          this.receiveChat(chat);
+        });
+      });
     },
   },
 });

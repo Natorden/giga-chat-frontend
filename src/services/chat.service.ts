@@ -9,7 +9,7 @@ export class ChatService {
   constructor() {
     this.socket.connect();
     this.socket.on("connect", () => {
-      console.log(this.socket.id);
+      console.log({ socketID: this.socket.id });
     });
   }
 

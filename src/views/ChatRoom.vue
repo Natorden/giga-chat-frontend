@@ -36,8 +36,15 @@
                 type="text"
                 class="form-control"
                 placeholder="Enter a message..."
+                v-model="chatInput"
               />
-              <button type="button" class="btn btn-primary">Send</button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                v-on:click="sendMsg"
+              >
+                Send
+              </button>
             </div>
           </div>
         </div>
@@ -48,12 +55,19 @@
 
 <script setup lang="ts">
 import { ChatStore } from "@/stores/chat.store";
+import { ref } from "vue";
 
 const chatStore = ChatStore();
 chatStore.loadRooms();
 
+const chatInput = ref("");
+
 function onRoomClicked(roomUUID: string) {
   chatStore.selectRoom(roomUUID);
+}
+
+function sendMsg() {
+  chatStore.createChat(chatInput.value);
 }
 </script>
 
