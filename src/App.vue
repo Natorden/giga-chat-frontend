@@ -78,6 +78,7 @@ const userStore = UserStore();
 let requestAmount = ref(0);
 
 function isLoggedIn(): boolean {
+  sender.value = JSON.parse(<string>localStorage.getItem("user")) as User;
   return !!localStorage.getItem("user");
 }
 
@@ -86,29 +87,24 @@ function logout() {
   userStore.logout();
 }
 
-let sender;
+let sender = ref({} as User);
 
-if (isLoggedIn()) {
-  sender = JSON.parse(<string>localStorage.getItem("user")) as User;
-
-  // Find requests for the logged in user
-  requestService.getRequestsByUserId(sender.uuid).then((r) => {
-    requestAmount.value = r.length;
-    r.forEach(req => {
-      // Add them to the requests store
-      userStore.addRequest(req.senderUserId);
-    });
-  });
-
-  // Listens for incoming requests
-  socket.on(sender.uuid, from => {
+onUpdated(() =>{
+  socket.on(sender.value.uuid, from => {
     userStore.addRequest(from);
     requestAmount.value++;
   });
-}
 
-onUpdated(() =>{
-  if(isLoggedIn())
+  if(sender.value.uuid.length > 0) {
+    // Find requests for the logged in user
+    requestService.getRequestsByUserId(sender.value.uuid).then((r) => {
+      requestAmount.value = r.length;
+      r.forEach(req => {
+        // Add them to the requests store
+        userStore.addRequest(req.senderUserId);
+      });
+    });
+  }
     userStore.getAllUsers();
 });
 
