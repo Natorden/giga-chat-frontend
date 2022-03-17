@@ -16,10 +16,9 @@
 
 <script setup lang="ts">
 import {UserStore} from "@/stores/user.store";
-import {ref, toRef, toRefs} from "vue";
-const userStore = UserStore();
 
-const requestsList = ref(userStore.requests);
+const userStore = UserStore();
+const requestsList = userStore.requests;
 
 </script>
 

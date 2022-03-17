@@ -36,13 +36,12 @@
 <script setup lang="ts">
 import { UserStore } from "@/stores/user.store";
 import type { User } from "@/models/User";
-import { ref } from "vue";
+import {onBeforeUpdate, onMounted, onUpdated, ref} from "vue";
 import {RequestService} from "@/services/request.service";
 
 const requestService: RequestService = new RequestService();
 
 const userStore = UserStore();
-userStore.getAllUsers();
 
 let userList = [] as User[];
 const shownUserList = ref([] as User[]);
@@ -80,5 +79,7 @@ function addFriend(friendId: string) {
   if (isLoggedIn())
     requestService.sendRequest(sender.uuid, friendId);
 }
+
+userStore.getAllUsers();
 
 </script>

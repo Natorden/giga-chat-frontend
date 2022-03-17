@@ -65,15 +65,14 @@
 <script setup lang="ts">
 import { UserStore } from "@/stores/user.store";
 import {io} from "socket.io-client";
-import {ref} from "vue";
+import {onUpdated, ref} from "vue";
 import type {User} from "@/models/User";
 import {RequestService} from "@/services/request.service";
-import router from "@/router";
+
+const requestService: RequestService = new RequestService();
 
 let socket = io("localhost:3001");
 socket.connect();
-
-const requestService: RequestService = new RequestService();
 
 const userStore = UserStore();
 let requestAmount = ref(0);
@@ -97,7 +96,6 @@ if (isLoggedIn()) {
     requestAmount.value = r.length;
     r.forEach(req => {
       // Add them to the requests store
-      console.log(req)
       userStore.addRequest(req.senderUserId);
     });
   });
@@ -108,6 +106,11 @@ if (isLoggedIn()) {
     requestAmount.value++;
   });
 }
+
+onUpdated(() =>{
+  if(isLoggedIn())
+    userStore.getAllUsers();
+});
 
 </script>
 
