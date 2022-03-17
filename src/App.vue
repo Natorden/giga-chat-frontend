@@ -33,6 +33,9 @@
         <li class="nav-item active" v-show="isLoggedIn.call()">
           <RouterLink to="/users" id="navbarItem">Users</RouterLink>
         </li>
+        <li class="nav-item active" v-show="isLoggedIn.call()">
+          <RouterLink to="/Chat" id="navbarItem">Chat</RouterLink>
+        </li>
       </ul>
     </div>
     <div class="collapse navbar-collapse justify-content-end">

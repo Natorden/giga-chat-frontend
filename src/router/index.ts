@@ -1,12 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import CreateUser from "../views/CreateUser.vue";
-import ChatView from "../views/ChatView.vue";
-import RoomCreate from "../views/RoomCreate.vue";
 import LoginView from "../views/LoginView.vue";
 import UserList from "../views/UserList.vue";
 import FriendRequests from "../views/FriendRequests.vue";
 import FriendView from "../views/FriendView.vue";
+import ChatRoomView from "../views/ChatRoom.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,16 +26,6 @@ const router = createRouter({
       component: CreateUser,
     },
     {
-      path: "/chatView",
-      name: "ChatView",
-      component: ChatView,
-    },
-    {
-      path: "/roomCreate",
-      name: "New Room",
-      component: RoomCreate,
-    },
-    {
       path: "/loginView",
       name: "Log-In",
       component: LoginView,
@@ -55,7 +44,11 @@ const router = createRouter({
       path: "/friends",
       name: 'Friends',
       component: FriendView,
-    }
+    },
+      path: "/chat",
+      name: "Chat",
+      component: ChatRoomView,
+    },
   ],
 });
 
