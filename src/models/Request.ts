@@ -1,4 +1,4 @@
 export interface Request {
-    senderId:string;
-    receiverId: string;
+    senderUserId: string;
+    receiverUserId: string;
 }

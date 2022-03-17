@@ -6,9 +6,6 @@ export class ChatService {
 
   constructor() {
     this.socket.connect();
-    this.socket.on("connect", () => {
-      console.log(this.socket.id);
-    });
   }
 
   createChat(chat: Chat) {

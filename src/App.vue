@@ -88,18 +88,20 @@ function logout() {
 
 let sender;
 
-// When logged in
-if (localStorage.getItem('user') != null) {
+if (isLoggedIn()) {
   sender = JSON.parse(<string>localStorage.getItem("user")) as User;
 
-  requestService.getRequestsByUserId(sender.uuid).then((requests) => {
-    requestAmount.value = requests.length;
-    requests.forEach((request) => {
-      userStore.requests.push(request);
-      console.log(request);
+  // Find requests for the logged in user
+  requestService.getRequestsByUserId(sender.uuid).then((r) => {
+    requestAmount.value = r.length;
+    r.forEach(req => {
+      // Add them to the requests store
+      console.log(req)
+      userStore.addRequest(req.senderUserId);
     });
   });
 
+  // Listens for incoming requests
   socket.on(sender.uuid, from => {
     userStore.addRequest(from);
     requestAmount.value++;

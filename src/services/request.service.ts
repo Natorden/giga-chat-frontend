@@ -1,7 +1,6 @@
 import {io} from "socket.io-client";
-import type {Request} from "@/models/Request";
 import http from "@/services/http.client";
-import type {User} from "@/models/User";
+import type {Request} from "@/models/Request";
 
 export class RequestService {
     socket = io("localhost:3001");
@@ -12,15 +11,15 @@ export class RequestService {
 
     sendRequest(senderId: string, receiverId: string) {
         const request: Request = {
-            senderId: senderId,
-            receiverId: receiverId
+            senderUserId: senderId,
+            receiverUserId: receiverId
         }
 
         this.socket.emit('createRequest', request);
     }
 
-    async getRequestsByUserId(userId: string): Promise<User[]> {
-        const result = await http.get("/requests/" + userId);
+    async getRequestsByUserId(userId: string): Promise<Request[]> {
+        const result = await http.get<Request[]>("/requests/" + userId);
         return result.data;
     }
 }

@@ -29,7 +29,7 @@ export class UserService {
   }
 
   async getUserById(id: string): Promise<User> {
-    const result = await http.get("/users/" + id);
+    const result = await http.get<User>("/users/" + id);
     return result.data;
   }
 }

@@ -1,10 +1,10 @@
 <template>
-  <div class="container" style="margin: 2em auto; width: 27em; padding: 0.5em">
+  <div class="container" style="width: 40em">
     <b-list-group v-for="(request, index) in requestsList" v-bind:key="index">
       <b-list-group-item>
-          <span style="font-size: 1.5em; margin-right: 7.3em">{{ request.username }}</span>
-          <b-button variant="success" style="margin-right: 0.5em">Accept</b-button>
-          <b-button variant="danger">Decline</b-button>
+        <sub style="font-size: 1.3em; margin-right: 17em">{{ request.username }}</sub>
+        <b-button variant="success" style="margin-right: 0.3em">Accept</b-button>
+        <b-button variant="danger">Decline</b-button>
       </b-list-group-item>
     </b-list-group>
     <h4 v-show="requestsList.length === 0"
@@ -16,14 +16,10 @@
 
 <script setup lang="ts">
 import {UserStore} from "@/stores/user.store";
-import {RequestService} from "@/services/request.service";
-
-
+import {ref, toRef, toRefs} from "vue";
 const userStore = UserStore();
-let requestsList = userStore.requests;
 
-// TODO: GET REQUESTS FROM BACKEND
-
+const requestsList = ref(userStore.requests);
 
 </script>
 

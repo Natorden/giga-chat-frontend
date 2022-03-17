@@ -54,6 +54,7 @@ export const UserStore = defineStore({
       userService
         .getAllUsers()
         .then((users) => {
+          // Add user one by one instead of this.users = users to prevent an exception
           this.users.forEach((user, index) => {
             delete this.users[index];
           });
@@ -64,8 +65,9 @@ export const UserStore = defineStore({
         })
         .catch((err) => console.log(err));
     },
-    addRequest(request: string) {
-      userService.getUserById(request).then(user =>{
+    addRequest(userRequestingId: string) {
+      // Get user object of the requesting user and add to request store
+      userService.getUserById(userRequestingId).then(user =>{
         this.requests.push(user);
       })
     },

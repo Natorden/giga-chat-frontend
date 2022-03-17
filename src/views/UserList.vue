@@ -18,7 +18,7 @@
         <b-container>
           <b-row>
             <b-col cols="10"><span style="font-size: 1.5em">{{ user.username }}</span></b-col>
-            <b-col cols="2"><b-button variant="success" @click="addFriend(user.uuid)" v-if="user.uuid !== sender.uuid">Add friend</b-button></b-col>
+            <b-col cols="2"><b-button variant="success" @click="addFriend(user.uuid)" v-if="user.uuid !== sender.uuid">Add</b-button></b-col>
           </b-row>
         </b-container>
       </b-list-group-item>
@@ -41,8 +41,6 @@ import {RequestService} from "@/services/request.service";
 
 const requestService: RequestService = new RequestService();
 
-let isLoggedIn: boolean = false;
-
 const userStore = UserStore();
 userStore.getAllUsers();
 
@@ -50,10 +48,16 @@ let userList = [] as User[];
 const shownUserList = ref([] as User[]);
 const userFilter = ref("");
 
+function isLoggedIn(): boolean {
+  return !!localStorage.getItem("user");
+}
+
+// Set local user list
 userStore.users.forEach((user) => {
   userList.push(user);
 });
 
+// Set the user list that is displayed
 shownUserList.value = userList;
 
 function filterUserList(input: string) {
@@ -62,18 +66,18 @@ function filterUserList(input: string) {
   if (input.length === 0) {
     return userList;
   }
+
   return results;
 }
 
-let sender: { uuid: string; };
+let sender: User;
 
-if (localStorage.getItem('user') != null) {
-  isLoggedIn = true;
+if (isLoggedIn()) {
   sender = JSON.parse(<string>localStorage.getItem('user'));
 }
 
 function addFriend(friendId: string) {
-  if (isLoggedIn)
+  if (isLoggedIn())
     requestService.sendRequest(sender.uuid, friendId);
 }
 
