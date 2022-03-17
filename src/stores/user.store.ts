@@ -19,6 +19,11 @@ export const UserStore = defineStore({
         return state.loggedInUser.username;
       else return "";
     },
+    loggedIn:  (state) => {
+      if (state.loggedInUser != undefined)
+        return state.loggedInUser;
+      return {} as User;
+    },
     users: (state) => {
       if (state.users != undefined) return state.users;
       else return [] as User[];
@@ -27,6 +32,9 @@ export const UserStore = defineStore({
       if (state.requests != undefined) return state.requests;
       else return [] as User[];
     },
+    requestsAmount() {
+      return this.requests.length;
+    }
   },
   actions: {
     createUser(username: string, email: string, password: string) {
@@ -39,7 +47,6 @@ export const UserStore = defineStore({
         username: username,
         password: password
       }
-
       userService
         .logIn(login)
         .then((user) => {
@@ -79,6 +86,9 @@ export const UserStore = defineStore({
       userService.getUserById(userRequestingId).then(user =>{
         this.requests.push(user);
       })
+    },
+    removeRequest(index: number) {
+      this.requests.splice(index, 1);
     },
   },
 });

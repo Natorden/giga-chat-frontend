@@ -90,22 +90,29 @@ function logout() {
 let sender = ref({} as User);
 
 onUpdated(() =>{
-  socket.on(sender.value.uuid, from => {
-    userStore.addRequest(from);
-    requestAmount.value++;
-  });
 
-  if(sender.value.uuid.length > 0) {
-    // Find requests for the logged in user
-    requestService.getRequestsByUserId(sender.value.uuid).then((r) => {
-      requestAmount.value = r.length;
-      r.forEach(req => {
-        // Add them to the requests store
-        userStore.addRequest(req.senderUserId);
-      });
+  try {
+    socket.on(sender.value.uuid, from => {
+      userStore.addRequest(from);
+      requestAmount.value++;
     });
+
+    if (sender.value.uuid.length > 0) {
+      // Find requests for the logged in user
+      requestService.getRequestsByUserId(sender.value.uuid).then((r) => {
+        requestAmount.value = r.length;
+        r.forEach(req => {
+          // Add them to the requests store
+          userStore.addRequest(req.senderUserId);
+        });
+      });
+    }
+
+  } catch (e) {
+    console.log(e);
   }
-    userStore.getAllUsers();
+
+  userStore.getAllUsers();
 });
 
 </script>
