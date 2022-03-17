@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import type { User } from "@/models/User";
 import { UserService } from "@/services/user.service";
+import router from "@/router";
+import type {LoginDto} from "@/models/Login.dto";
 
 const userService: UserService = new UserService();
 
@@ -33,15 +35,21 @@ export const UserStore = defineStore({
         .catch((err) => console.log(err.message));
     },
     logInUser(username: string, password: string): boolean {
+      const login: LoginDto = {
+        username: username,
+        password: password
+      }
+
       userService
-        .logIn(username, password)
+        .logIn(login)
         .then((user) => {
-          if (user != null) {
+          if (user) {
             this.loggedInUser = user;
             const parsed = JSON.stringify(this.loggedInUser);
             localStorage.setItem("user", parsed);
             return true;
           }
+          // TODO: add some kinda notification to let the user know the login failed
         })
         .catch((err) => console.log(err));
       return false;
@@ -49,6 +57,7 @@ export const UserStore = defineStore({
     logout() {
       this.loggedInUser = { username: "" } as User;
       localStorage.removeItem("user");
+      router.replace({path: '/loginView'})
     },
     getAllUsers() {
       userService

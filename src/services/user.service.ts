@@ -1,5 +1,6 @@
 import http from "./http.client";
 import type { User } from "@/models/User";
+import type {LoginDto} from "@/models/Login.dto";
 
 export class UserService {
   async createUser(
@@ -15,11 +16,8 @@ export class UserService {
     return result.data;
   }
 
-  async logIn(username: string, password: string): Promise<User> {
-    const result = await http.post("/log-in", {
-      username: username,
-      password: password,
-    });
+  async logIn(login: LoginDto): Promise<User> {
+    const result = await http.post<User>("/log-in", login);
     return result.data;
   }
 

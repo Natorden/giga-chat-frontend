@@ -68,6 +68,7 @@ import {io} from "socket.io-client";
 import {ref} from "vue";
 import type {User} from "@/models/User";
 import {RequestService} from "@/services/request.service";
+import router from "@/router";
 
 let socket = io("localhost:3001");
 socket.connect();
