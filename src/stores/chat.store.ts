@@ -2,6 +2,8 @@ import { defineStore } from "pinia";
 import type { Chat } from "@/models/Chat";
 import { ChatService } from "@/services/chat.service";
 import type { Room } from "@/models/Room";
+import { UserStore } from "@/stores/user.store";
+import type { User } from "@/models/User";
 
 const chatService = new ChatService();
 
@@ -15,7 +17,13 @@ export const ChatStore = defineStore({
   actions: {
     createChat(text: string) {
       if (this.selectedRoom != undefined) {
-        const chat: Chat = { text: text, room: this.selectedRoom.uuid };
+        const user = JSON.parse(<string>localStorage.getItem("user")) as User;
+
+        const chat: Chat = {
+          text: text,
+          room: this.selectedRoom.uuid,
+          userUUID: user.uuid,
+        };
         chatService.createChat(chat);
       }
     },

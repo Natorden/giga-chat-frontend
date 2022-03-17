@@ -27,7 +27,7 @@
             <div class="messages">
               <ul v-if="chatStore.selectedRoom != undefined">
                 <li v-for="chat in chatStore.selectedRoom.chats">
-                  {{ chat.text }}
+                  {{ chat.user.username }}: {{ chat.text }}
                 </li>
               </ul>
             </div>
