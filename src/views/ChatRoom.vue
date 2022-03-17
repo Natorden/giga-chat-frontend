@@ -10,7 +10,13 @@
             <h5 class="card-title">Chat Rooms</h5>
             <hr />
             <ul>
-              <li v-for="room in chatStore.rooms">{{ room.name }}</li>
+              <li
+                class="room"
+                v-for="room in chatStore.rooms"
+                v-on:click="onRoomClicked(room.uuid)"
+              >
+                {{ room.name }}
+              </li>
             </ul>
           </div>
         </div>
@@ -19,9 +25,10 @@
         <div class="card h-100">
           <div class="card-body">
             <div class="messages">
-              <ul>
-                <li>John: Message 1</li>
-                <li>John: Message 2</li>
+              <ul v-if="chatStore.selectedRoom != undefined">
+                <li v-for="chat in chatStore.selectedRoom.chats">
+                  {{ chat.text }}
+                </li>
               </ul>
             </div>
             <div style="display: flex" class="mt-3">
@@ -44,6 +51,18 @@ import { ChatStore } from "@/stores/chat.store";
 
 const chatStore = ChatStore();
 chatStore.loadRooms();
+
+function onRoomClicked(roomUUID: string) {
+  chatStore.selectRoom(roomUUID);
+}
 </script>
 
-<style scoped></style>
+<style scoped>
+.room {
+  cursor: pointer;
+}
+
+.selected {
+  font-weight: bold;
+}
+</style>

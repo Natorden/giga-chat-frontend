@@ -11,6 +11,7 @@ export const ChatStore = defineStore({
     chats: [{ text: "Welcome to the room" }] as Chat[],
     room: "",
     rooms: [] as Room[],
+    selectedRoom: undefined as Room | undefined,
   }),
   actions: {
     createChat(text: string) {
@@ -30,6 +31,9 @@ export const ChatStore = defineStore({
     },
     loadRooms() {
       chatService.getAllRooms().then((rooms) => (this.rooms = rooms));
+    },
+    selectRoom(roomUUID: string) {
+      chatService.loadRoom(roomUUID).then((room) => (this.selectedRoom = room));
     },
   },
 });

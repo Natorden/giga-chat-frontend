@@ -31,4 +31,9 @@ export class ChatService {
     const res = await http.get<Room[]>("/rooms");
     return res.data;
   }
+
+  async loadRoom(uuid: string): Promise<Room> {
+    const res = await http.get<Room>(`/rooms/${uuid}`);
+    return res.data;
+  }
 }
