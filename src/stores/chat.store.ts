@@ -20,6 +20,10 @@ export const ChatStore = defineStore({
       if (state.selectedRoom != undefined) return state.selectedRoom;
       return undefined;
     },
+    userTyping: (state) => {
+      if (state.isTyping != undefined) return state.isTyping;
+      return undefined;
+    }
   },
   actions: {
     createChat(text: string) {
