@@ -71,9 +71,10 @@
 <script setup lang="ts">
 import { UserStore } from "@/stores/user.store";
 import {io} from "socket.io-client";
-import {onUpdated, ref} from "vue";
+import {onBeforeUnmount, onMounted, onUpdated, ref} from "vue";
 import type {User} from "@/models/User";
 import {RequestService} from "@/services/request.service";
+import router from "@/router";
 
 const requestService: RequestService = new RequestService();
 
@@ -95,30 +96,26 @@ function logout() {
 
 let sender = ref({} as User);
 
-onUpdated(() =>{
+onUpdated(() => {
+  if(sender.value != null) {
 
-  try {
     socket.on(sender.value.uuid, from => {
       userStore.addRequest(from);
       requestAmount.value++;
     });
 
-    if (sender.value.uuid.length > 0) {
-      // Find requests for the logged in user
-      requestService.getRequestsByUserId(sender.value.uuid).then((r) => {
-        requestAmount.value = r.length;
-        r.forEach(req => {
-          // Add them to the requests store
-          userStore.addRequest(req.senderUserId);
-        });
+    // Find requests for the logged in user
+    requestService.getRequestsByUserId(sender.value.uuid).then((r) => {
+      requestAmount.value = r.length;
+      r.forEach(req => {
+        // Add them to the requests store
+        userStore.addRequest(req.senderUserId);
       });
-    }
+    });
 
-  } catch (e) {
-    console.log(e);
+    userStore.getAllFriends(sender.value);
+    userStore.getAllUsers();
   }
-
-  userStore.getAllUsers();
 });
 
 </script>
