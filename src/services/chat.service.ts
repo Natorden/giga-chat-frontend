@@ -24,8 +24,8 @@ export class ChatService {
     this.socket.off(room);
   }
 
-  async getAllRooms(): Promise<Room[]> {
-    const res = await http.get<Room[]>("/rooms");
+  async getAllRooms(uuid: string): Promise<Room[]> {
+    const res = await http.get<Room[]>(`/rooms/user/${uuid}`);
     return res.data;
   }
 
