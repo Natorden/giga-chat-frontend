@@ -33,6 +33,7 @@ export const ChatStore = defineStore({
         const chat: Chat = {
           text: text,
           room: this.selectedRoom.uuid,
+          user: user,
           userUUID: user.uuid,
         };
         chatService.createChat(chat);
