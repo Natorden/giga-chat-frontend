@@ -38,4 +38,15 @@ export class ChatService {
     const res = await http.post<Room>(`/rooms`, { name, userUUID });
     return res.data;
   }
+
+  userIsTyping(chat: Chat) {
+    this.socket.emit("isTyping", chat);
+  }
+
+  updateIsTyping(continueChat: (data: string[]) => void) {
+    return this.socket.on("getIsTyping", (args) => {
+      console.log(args);
+      continueChat(args);
+    });
+  }
 }

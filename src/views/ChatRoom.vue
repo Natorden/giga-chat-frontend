@@ -45,6 +45,11 @@
                   {{ chat.user.username }}: {{ chat.text }}
                 </li>
               </ul>
+              <p>
+                {{
+                  chatStore.isTyping //todo and this is to make it show as typing if im correct
+                }}
+              </p>
             </div>
             <div style="display: flex" class="mt-3">
               <input
@@ -52,6 +57,7 @@
                 class="form-control"
                 placeholder="Enter a message..."
                 v-model="chatInput"
+                @keydown="onTyping"
               />
               <button
                 type="button"
@@ -71,15 +77,27 @@
 <script setup lang="ts">
 import { ChatStore } from "@/stores/chat.store";
 import { ref } from "vue";
+import { UserStore } from "@/stores/user.store";
 
 const chatStore = ChatStore();
+const userStore = UserStore();
+
 chatStore.loadRooms();
+chatStore.updateTyping();
 
 const chatInput = ref("");
 const roomInput = ref("");
 
 function onRoomClicked(roomUUID: string) {
   chatStore.selectRoom(roomUUID);
+}
+
+function onTyping() {
+  chatStore.onUserTyping({
+    user: userStore.userName,
+    text: chatInput.value,
+  });
+  //todo idk how to fix this because user in chats uses the User class
 }
 
 function sendMsg() {
