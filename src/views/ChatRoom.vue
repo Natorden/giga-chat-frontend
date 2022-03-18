@@ -45,9 +45,7 @@
                   {{ chat.user.username }}: {{ chat.text }}
                 </li>
               </ul>
-              <p>
-                {{ chatStore.isTyping }}
-              </p>
+              <p>{{ chatStore.isTyping }} is typing</p>
             </div>
             <div style="display: flex" class="mt-3">
               <input
@@ -95,7 +93,6 @@ function onTyping() {
     user: userStore.userName,
     text: chatInput.value,
   });
-  //todo idk how to fix this because user in chats uses the User class
 }
 
 function sendMsg() {

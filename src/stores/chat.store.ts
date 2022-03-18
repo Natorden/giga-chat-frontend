@@ -16,7 +16,10 @@ export const ChatStore = defineStore({
     isListening: [] as string[],
   }),
   getters: {
-    roomSelected() {},
+    roomSelected: (state) => {
+      if (state.selectedRoom != undefined) return state.selectedRoom;
+      return undefined;
+    },
   },
   actions: {
     createChat(text: string) {
