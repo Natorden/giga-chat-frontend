@@ -10,12 +10,7 @@ export class FriendService {
     }
 
     async getAll(user: User): Promise<User[]> {
-        try {
-            const result = await http.get<User[]>("/friends/user/" + user.uuid);
-            return result.data;
-        }catch (e) {
-            console.log(e);
-        }
-        return [] as User[]
+        const result = await http.get<User[]>("/friends/user/" + user.uuid);
+        return result.data;
     }
 }
