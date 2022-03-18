@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 import type { Chat } from "@/models/Chat";
 import { ChatService } from "@/services/chat.service";
 import type { Room } from "@/models/Room";
-import { UserStore } from "@/stores/user.store";
 import type { User } from "@/models/User";
 
 const chatService = new ChatService();
@@ -33,7 +32,8 @@ export const ChatStore = defineStore({
       }
     },
     loadRooms() {
-      chatService.getAllRooms().then((rooms) => (this.rooms = rooms));
+      const user = JSON.parse(<string>localStorage.getItem("user")) as User;
+      chatService.getAllRooms(user.uuid).then((rooms) => (this.rooms = rooms));
     },
     selectRoom(roomUUID: string) {
       if (this.selectedRoom != undefined)
@@ -45,6 +45,12 @@ export const ChatStore = defineStore({
           this.receiveChat(chat);
         });
       });
+    },
+    newRoom(name: string) {
+      const user = JSON.parse(<string>localStorage.getItem("user")) as User;
+      chatService
+        .createRoom(name, user.uuid)
+        .then((room) => this.rooms.push(room));
     },
   },
 });

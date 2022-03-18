@@ -4,7 +4,7 @@
     style="margin: 2em auto; width: 60em; padding: 0.5em; height: 60vh"
   >
     <div class="row h-100">
-      <div class="col-3">
+      <div class="col-4">
         <div class="card h-100">
           <div class="card-body">
             <h5 class="card-title">Chat Rooms</h5>
@@ -18,6 +18,21 @@
                 {{ room.name }}
               </li>
             </ul>
+            <div style="display: flex" class="mt-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter a room name..."
+                v-model="roomInput"
+              />
+              <button
+                type="button"
+                class="btn btn-primary"
+                v-on:click="createNewRoom"
+              >
+                Create Room
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -61,6 +76,7 @@ const chatStore = ChatStore();
 chatStore.loadRooms();
 
 const chatInput = ref("");
+const roomInput = ref("");
 
 function onRoomClicked(roomUUID: string) {
   chatStore.selectRoom(roomUUID);
@@ -68,6 +84,10 @@ function onRoomClicked(roomUUID: string) {
 
 function sendMsg() {
   chatStore.createChat(chatInput.value);
+}
+
+function createNewRoom() {
+  chatStore.newRoom(roomInput.value);
 }
 </script>
 

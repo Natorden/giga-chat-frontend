@@ -24,13 +24,18 @@ export class ChatService {
     this.socket.off(room);
   }
 
-  async getAllRooms(): Promise<Room[]> {
-    const res = await http.get<Room[]>("/rooms");
+  async getAllRooms(uuid: string): Promise<Room[]> {
+    const res = await http.get<Room[]>(`/rooms/user/${uuid}`);
     return res.data;
   }
 
   async loadRoom(uuid: string): Promise<Room> {
     const res = await http.get<Room>(`/rooms/${uuid}`);
+    return res.data;
+  }
+
+  async createRoom(name: string, userUUID: string): Promise<Room> {
+    const res = await http.post<Room>(`/rooms`, { name, userUUID });
     return res.data;
   }
 }
