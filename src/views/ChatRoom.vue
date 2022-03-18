@@ -46,9 +46,7 @@
                 </li>
               </ul>
               <p>
-                {{
-                  chatStore.isTyping //todo and this is to make it show as typing if im correct
-                }}
+                {{ chatStore.isTyping }}
               </p>
             </div>
             <div style="display: flex" class="mt-3">

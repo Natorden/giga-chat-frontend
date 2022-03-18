@@ -15,6 +15,9 @@ export const ChatStore = defineStore({
     isTyping: [] as string[],
     isListening: [] as string[],
   }),
+  getters: {
+    roomSelected() {},
+  },
   actions: {
     createChat(text: string) {
       if (this.selectedRoom != undefined) {
