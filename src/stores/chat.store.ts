@@ -46,5 +46,11 @@ export const ChatStore = defineStore({
         });
       });
     },
+    newRoom(name: string) {
+      const user = JSON.parse(<string>localStorage.getItem("user")) as User;
+      chatService
+        .createRoom(name, user.uuid)
+        .then((room) => this.rooms.push(room));
+    },
   },
 });

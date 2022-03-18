@@ -33,4 +33,9 @@ export class ChatService {
     const res = await http.get<Room>(`/rooms/${uuid}`);
     return res.data;
   }
+
+  async createRoom(name: string, userUUID: string): Promise<Room> {
+    const res = await http.post<Room>(`/rooms`, { name, userUUID });
+    return res.data;
+  }
 }
