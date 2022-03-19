@@ -2,9 +2,11 @@ import { defineStore } from "pinia";
 import type { User } from "@/models/User";
 import { UserService } from "@/services/user.service";
 import router from "@/router";
-import type { LoginDto } from "@/models/Login.dto";
+import type {LoginDto} from "@/models/Login.dto";
+import {FriendService} from "@/services/friend.service";
 
 const userService: UserService = new UserService();
+const friendService: FriendService = new FriendService();
 
 export const UserStore = defineStore({
   id: "userStore",
@@ -35,7 +37,7 @@ export const UserStore = defineStore({
     requestsAmount() {
       return this.requests.length;
     },
-    friends: (state) => {
+    friendsArray: (state) => {
       if (state.friends != undefined) return state.friends;
       else return [] as User[];
     },
@@ -94,5 +96,10 @@ export const UserStore = defineStore({
     removeRequest(index: number) {
       this.requests.splice(index, 1);
     },
+    getAllFriends(user: User) {
+      friendService.getAll(user).then((users) => {
+        this.$state.friends = users;
+      });
+    }
   },
 });

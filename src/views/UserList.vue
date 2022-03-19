@@ -1,5 +1,5 @@
 <template>
-  <div class="container" style="margin: 2em auto; width: 50em; padding: 0.5em">
+  <div class="container" style="margin: 2em auto; width: 40em; padding: 0.5em">
     <div class="input-group mb-3">
       <input
         style="font-size: 1.5em"
@@ -18,7 +18,7 @@
         <b-container>
           <b-row>
             <b-col cols="10"><span style="font-size: 1.5em">{{ user.username }}</span></b-col>
-            <b-col cols="2"><b-button variant="success" @click="addFriend(user.uuid)" v-if="user.uuid !== sender.uuid">Add</b-button></b-col>
+            <b-col cols="2"><b-button variant="success" @click="addFriend(user.uuid)" v-if="user.uuid !== sender.uuid && !isFriendsWith(user.uuid)">Add</b-button></b-col>
           </b-row>
         </b-container>
       </b-list-group-item>
@@ -78,6 +78,18 @@ if (isLoggedIn()) {
 function addFriend(friendId: string) {
   if (isLoggedIn())
     requestService.sendRequest(sender.uuid, friendId);
+}
+
+function isFriendsWith(id: string): boolean {
+  let isFriends = false;
+
+  userStore.friendsArray.forEach((user) =>{
+    if (user.uuid === id) {
+      isFriends = true;
+    }
+  });
+
+  return isFriends;
 }
 
 userStore.getAllUsers();
