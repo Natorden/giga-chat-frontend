@@ -36,7 +36,6 @@ function addFriend(friendIdToAdd: string, index: number) {
   friendService.create(friendToAdd)
   requestsShown.value.splice(index, 1);
   userStore.removeRequest(index);
-  userStore.getAllFriends(userStore.loggedIn);
 }
 
 </script>
