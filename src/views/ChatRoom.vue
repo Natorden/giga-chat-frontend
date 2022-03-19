@@ -89,10 +89,18 @@ function onRoomClicked(roomUUID: string) {
 }
 
 function onTyping() {
-  chatStore.onUserTyping({
-    user: userStore.userName,
-    text: chatInput.value,
-  });
+  if (chatStore.roomSelected != undefined) {
+    chatStore.onUserTyping({
+      room: chatStore.roomSelected.name,
+      user: userStore.loggedIn,
+      userUUID: userStore.loggedIn.uuid,
+      text: chatInput.value,
+    });
+  }
+  // chatStore.onUserTyping({
+  //   user: userStore.userName,
+  //   text: chatInput.value,
+  // });
 }
 
 function sendMsg() {

@@ -23,7 +23,7 @@ export const ChatStore = defineStore({
     userTyping: (state) => {
       if (state.isTyping != undefined) return state.isTyping;
       return undefined;
-    }
+    },
   },
   actions: {
     createChat(text: string) {
