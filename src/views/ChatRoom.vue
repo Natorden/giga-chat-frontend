@@ -45,7 +45,7 @@
                   {{ chat.user.username }}: {{ chat.text }}
                 </li>
               </ul>
-              <p>{{ chatStore.isTyping }}</p>
+              <p>{{ chatStore.userTyping }}</p>
             </div>
             <div style="display: flex" class="mt-3">
               <input

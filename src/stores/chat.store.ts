@@ -12,7 +12,7 @@ export const ChatStore = defineStore({
     room: "",
     rooms: [] as Room[],
     selectedRoom: undefined as Room | undefined,
-    isTyping: [] as string[],
+    isTyping: [] as User[],
     isListening: [] as string[],
   }),
   getters: {
@@ -71,10 +71,12 @@ export const ChatStore = defineStore({
     },
     updateTyping() {
       if (this.isListening.indexOf("typing") == -1) {
-        chatService.updateIsTyping((data: string[]) => {
+        chatService.updateIsTyping((data: User[]) => {
           this.isTyping = [];
           data.forEach((user) => {
-            this.isTyping.push(user);
+            if (this.isTyping.find(usr => usr.uuid == user.uuid) == null) {
+              this.isTyping.push(user);
+            }
           });
         });
         this.isListening.push("typing");

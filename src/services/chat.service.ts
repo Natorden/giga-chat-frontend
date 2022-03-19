@@ -2,6 +2,7 @@ import { io } from "socket.io-client";
 import type { Chat } from "@/models/Chat";
 import type { Room } from "@/models/Room";
 import http from "./http.client";
+import type {User} from "@/models/User";
 
 export class ChatService {
   socket = io("localhost:3001");
@@ -43,9 +44,8 @@ export class ChatService {
     this.socket.emit("isTyping", chat);
   }
 
-  updateIsTyping(continueChat: (data: string[]) => void) {
+  updateIsTyping(continueChat: (data: User[]) => void) {
     return this.socket.on("getIsTyping", (args) => {
-      console.log(args);
       continueChat(args);
     });
   }
