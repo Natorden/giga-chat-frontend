@@ -3,7 +3,8 @@
     <b-list-group v-for="(request, index) in requestsShown" v-bind:key="index">
       <b-list-group-item>
         <sub style="font-size: 1.3em; margin-right: 17em">{{ request.username }}</sub>
-        <b-button variant="success" style="margin-right: 0.3em" @click="addFriend(request.uuid, index)">Accept</b-button>
+        <b-button variant="success" style="margin-right: 0.3em" @click="addFriend(request.uuid, index)">Accept
+        </b-button>
         <b-button variant="danger">Decline</b-button>
       </b-list-group-item>
     </b-list-group>

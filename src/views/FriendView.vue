@@ -11,7 +11,7 @@
     </b-list-group>
   </div>
   <h4
-      v-show="friendList.length === 0 || shownUserList.length === 0"
+      v-show="friendList.length === 0"
       style="text-align: center"
   >
     You are friendless :{
@@ -20,12 +20,13 @@
 
 <script setup lang="ts">
 
+import type {User} from "@/models/User";
 import {UserStore} from "@/stores/user.store";
+import {ref} from "vue";
 
 const userStore = UserStore();
-
-const friendList = userStore.friends;
-
+userStore.getAllFriends(JSON.parse(<string>localStorage.getItem("user")) as User);
+const friendList = ref(userStore.friendsArray);
 
 
 </script>

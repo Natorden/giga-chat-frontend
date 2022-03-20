@@ -9,14 +9,14 @@
     padding: 10px;
 }
 
-.center2{
+.center2 {
     position: absolute;
     bottom: 5px;
     left: 5px;
     align-items: center;
 }
 
-.scrollable{
+.scrollable {
     overflow-x: auto;
 }
 
