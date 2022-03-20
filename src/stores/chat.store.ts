@@ -74,7 +74,7 @@ export const ChatStore = defineStore({
         chatService.updateIsTyping((data: User[]) => {
           this.isTyping = [];
           data.forEach((user) => {
-            if (this.isTyping.find(usr => usr.uuid == user.uuid) == null) {
+            if (this.isTyping.find((usr) => usr.uuid == user.uuid) == null) {
               this.isTyping.push(user);
             }
           });

@@ -45,7 +45,7 @@
                   {{ chat.user.username }}: {{ chat.text }}
                 </li>
               </ul>
-              <p>{{ chatStore.userTyping }}</p>
+              <p v-for="typing in chatStore.userTyping">{{ typing.username }} User is typing...</p>
             </div>
             <div style="display: flex" class="mt-3">
               <input
@@ -97,10 +97,6 @@ function onTyping() {
       text: chatInput.value,
     });
   }
-  // chatStore.onUserTyping({
-  //   user: userStore.userName,
-  //   text: chatInput.value,
-  // });
 }
 
 function sendMsg() {
