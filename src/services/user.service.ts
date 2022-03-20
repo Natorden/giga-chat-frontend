@@ -1,6 +1,6 @@
 import http from "./http.client";
 import type { User } from "@/models/User";
-import type {LoginDto} from "@/models/Login.dto";
+import type { LoginDto } from "@/models/Login.dto";
 
 export class UserService {
   async createUser(

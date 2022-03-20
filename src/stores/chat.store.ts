@@ -12,7 +12,19 @@ export const ChatStore = defineStore({
     room: "",
     rooms: [] as Room[],
     selectedRoom: undefined as Room | undefined,
+    isTyping: [] as User[],
+    isListening: [] as string[],
   }),
+  getters: {
+    roomSelected: (state) => {
+      if (state.selectedRoom != undefined) return state.selectedRoom;
+      return undefined;
+    },
+    userTyping: (state) => {
+      if (state.isTyping != undefined) return state.isTyping;
+      return undefined;
+    },
+  },
   actions: {
     createChat(text: string) {
       if (this.selectedRoom != undefined) {
@@ -21,6 +33,7 @@ export const ChatStore = defineStore({
         const chat: Chat = {
           text: text,
           room: this.selectedRoom.uuid,
+          user: user,
           userUUID: user.uuid,
         };
         chatService.createChat(chat);
@@ -51,6 +64,23 @@ export const ChatStore = defineStore({
       chatService
         .createRoom(name, user.uuid)
         .then((room) => this.rooms.push(room));
+    },
+    onUserTyping(chat: Chat) {
+      chat.room = this.room;
+      chatService.userIsTyping(chat);
+    },
+    updateTyping() {
+      if (this.isListening.indexOf("typing") == -1) {
+        chatService.updateIsTyping((data: User[]) => {
+          this.isTyping = [];
+          data.forEach((user) => {
+            if (this.isTyping.find((usr) => usr.uuid == user.uuid) == null) {
+              this.isTyping.push(user);
+            }
+          });
+        });
+        this.isListening.push("typing");
+      }
     },
   },
 });

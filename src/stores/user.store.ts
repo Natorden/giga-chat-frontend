@@ -2,11 +2,9 @@ import { defineStore } from "pinia";
 import type { User } from "@/models/User";
 import { UserService } from "@/services/user.service";
 import router from "@/router";
-import type {LoginDto} from "@/models/Login.dto";
-import {FriendService} from "@/services/friend.service";
+import type { LoginDto } from "@/models/Login.dto";
 
 const userService: UserService = new UserService();
-const friendService: FriendService = new FriendService();
 
 export const UserStore = defineStore({
   id: "userStore",
@@ -22,9 +20,8 @@ export const UserStore = defineStore({
         return state.loggedInUser.username;
       else return "";
     },
-    loggedIn:  (state) => {
-      if (state.loggedInUser != undefined)
-        return state.loggedInUser;
+    loggedIn: (state) => {
+      if (state.loggedInUser != undefined) return state.loggedInUser;
       return {} as User;
     },
     users: (state) => {
@@ -38,10 +35,10 @@ export const UserStore = defineStore({
     requestsAmount() {
       return this.requests.length;
     },
-    friendsArray: (state) => {
+    friends: (state) => {
       if (state.friends != undefined) return state.friends;
       else return [] as User[];
-    }
+    },
   },
   actions: {
     createUser(username: string, email: string, password: string) {
@@ -52,8 +49,8 @@ export const UserStore = defineStore({
     logInUser(username: string, password: string): boolean {
       const login: LoginDto = {
         username: username,
-        password: password
-      }
+        password: password,
+      };
       userService
         .logIn(login)
         .then((user) => {
@@ -71,7 +68,7 @@ export const UserStore = defineStore({
     logout() {
       this.loggedInUser = { username: "" } as User;
       localStorage.removeItem("user");
-      router.replace({path: '/loginView'})
+      router.replace({ path: "/loginView" });
     },
     getAllUsers() {
       userService
@@ -90,17 +87,12 @@ export const UserStore = defineStore({
     },
     addRequest(userRequestingId: string) {
       // Get user object of the requesting user and add to request store
-      userService.getUserById(userRequestingId).then(user =>{
+      userService.getUserById(userRequestingId).then((user) => {
         this.requests.push(user);
-      })
+      });
     },
     removeRequest(index: number) {
       this.requests.splice(index, 1);
     },
-    getAllFriends(user: User) {
-      friendService.getAll(user).then((users) => {
-        this.$state.friends = users;
-      });
-    }
   },
 });

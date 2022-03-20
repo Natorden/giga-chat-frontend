@@ -45,6 +45,7 @@
                   {{ chat.user.username }}: {{ chat.text }}
                 </li>
               </ul>
+              <p v-for="typing in chatStore.userTyping">{{ typing.username }} User is typing...</p>
             </div>
             <div style="display: flex" class="mt-3">
               <input
@@ -52,6 +53,7 @@
                 class="form-control"
                 placeholder="Enter a message..."
                 v-model="chatInput"
+                @keydown="onTyping"
               />
               <button
                 type="button"
@@ -71,15 +73,30 @@
 <script setup lang="ts">
 import { ChatStore } from "@/stores/chat.store";
 import { ref } from "vue";
+import { UserStore } from "@/stores/user.store";
 
 const chatStore = ChatStore();
+const userStore = UserStore();
+
 chatStore.loadRooms();
+chatStore.updateTyping();
 
 const chatInput = ref("");
 const roomInput = ref("");
 
 function onRoomClicked(roomUUID: string) {
   chatStore.selectRoom(roomUUID);
+}
+
+function onTyping() {
+  if (chatStore.roomSelected != undefined) {
+    chatStore.onUserTyping({
+      room: chatStore.roomSelected.name,
+      user: userStore.loggedIn,
+      userUUID: userStore.loggedIn.uuid,
+      text: chatInput.value,
+    });
+  }
 }
 
 function sendMsg() {
