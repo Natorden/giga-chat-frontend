@@ -15,18 +15,12 @@
         </b-form-input>
         <b-form-input
           size="md"
-          type="email"
-          v-model="inputEmail"
-          placeholder="Enter your email"
+          v-model="inputGender"
+          placeholder="Enter your gender"
           style="margin-bottom: 0.5em"
         >
         </b-form-input>
-        <b-form-input
-          size="md"
-          type="password"
-          v-model="inputPassword"
-          placeholder="Enter your password"
-        >
+        <b-form-input size="md" v-model="inputAge" placeholder="Enter your age">
         </b-form-input>
       </div>
       <b-button
@@ -38,34 +32,25 @@
       </b-button>
     </b-card>
   </div>
-  <!--  <h2>Lets create a user</h2>
-  <input v-model="inputName" placeholder="Enter Name" /> <br />
-  <input v-model="inputEmail" placeholder="Enter Email" /> <br />
-  <input v-model="inputPassword" placeholder="Enter Password" /> <br />
-  <button @click="handleCreateUser">Create User</button>-->
 </template>
 
-<script setup lang="ts">
-import { UserStore } from "@/stores/user.store";
+<script lang="ts">
+import { MongoUserStore } from "@/stores/mongoUser.store";
 import { ref } from "vue";
 import router from "@/router";
 
-const userStore = UserStore();
+const mongoUserStore = MongoUserStore();
 const inputName = ref("");
-const inputEmail = ref("");
-const inputPassword = ref("");
+const inputGender = ref("");
+const inputAge = ref("");
 
 function handleCreateUser() {
   if (
     inputName.value.length > 0 &&
-    inputEmail.value.length > 0 &&
-    inputPassword.value.length > 0
+    inputGender.value.length > 0 &&
+    inputAge.value.length > 0
   ) {
-    userStore.createUser(
-      inputName.value,
-      inputEmail.value,
-      inputPassword.value
-    );
+    mongoUserStore.createMongoUser(inputName.value, inputGender.value, 25);
     router.push({ path: "/loginView" });
   }
 }
