@@ -34,7 +34,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { MongoUserStore } from "@/stores/mongoUser.store";
 import { ref } from "vue";
 import router from "@/router";
